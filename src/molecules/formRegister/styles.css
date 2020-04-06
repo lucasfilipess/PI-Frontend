@@ -1,0 +1,26 @@
+.group{
+  display: flex;
+  align-items: center;
+}
+
+.group :last-child{
+  max-width: 80px;
+  margin-left: 8px;
+}
+
+.group :nth-child(2){
+  margin-bottom: 8px;
+}
+
+.buttons{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* ///////////////////////////////////////////////////////////////////////// */
+
+
+
+
