@@ -17,3 +17,6 @@ axios: https://www.npmjs.com/package/axios - react-icons: https://www.npmjs.com/
 
 ### Requerimentos
 Node >= 12, npm: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+
+### Design Pattern 
+Atomic
