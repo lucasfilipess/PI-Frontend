@@ -16,5 +16,5 @@ React JS
 axios: https://www.npmjs.com/package/axios - react-icons: https://www.npmjs.com/package/react-icons - react-router-dom: https://www.npmjs.com/package/react-router-dom
 
 ### Requerimentos
-1 - Node >= 12
-2 - npm
+# Node >= 12
+# npm
