@@ -1,68 +1,20 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+O desperdício ou perda de alimentos em restaurantes, bares, Fast-Foods e até mesmo nas residências, gera um grande impacto ambiental, hoje em dia no mercado existem diversas empresas que utilizam desse descarte indevido de alimentos perdidos ou desperdiçados para transformar eles em adubo. Visando o objetivo de reduzir esse impacto causado pelo desperdício dos alimentos, será desenvolvido um software para direcionar as empresas que necessitam de fazer o descarte de alimentos até as empresas que utilizam do mesmo para ser transformado em adubo. 
+De acordo com Luiza Belloni: “Todos os anos, cerca de 1,3 bilhão de toneladas de alimentos são desperdiçadas ou perdidas em todo o mundo. Ou seja, cerca de um terço de tudo que produzimos acaba na lata do lixo.”, diante desse número, despertando o interesse de ajudar no impacto ambiental que pode ser gerado com o desperdício desses alimentos, descobrimos empresas que utilizam esses restos para fazer adubo orgânico, e também existentes empresas que auxiliam na tratativa desses alimentos para transformação de adubo orgânico na sua própria residência.
+Para doar os alimentos que não foram consumidos, eles não podem ter sido expostos, como decreta a Resolução de Diretoria Colegiada nº 275 da Anvisa. Entretanto, a Lei n° 8.137 de 1990 que trata deste assunto deixa claro que caso a comida cause dano a saúde de alguém quem é responsável é a empresa, por esse motivo elas preferem descartá-la. (3º parágrafo: justificativa para o projeto/trabalho. “O que NÃO se sabe sobre o problema ser resolvido?” )
+Visto esse cenário, será desenvolvido o software, na tentativa de sanar os impactos do 12° problema dos Objetivos de desenvolvimento sustentável da ONU (Consumo e produção responsável). (4º parágrafo: objetivos específicos do projeto/problema, descritos sob a forma de perguntas objetivas.)
 
-## Available Scripts
+Ferramentas usadas:
 
-In the project directory, you can run:
+VS Code,
+Node JS,
+React JS
 
-### `yarn start`
+Pacotes:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+axios: https://www.npmjs.com/package/axios
+react-icons: https://www.npmjs.com/package/react-icons
+react-router-dom: https://www.npmjs.com/package/react-router-dom
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Requerimentos
+1 - Node >= 12
+2 - npm
