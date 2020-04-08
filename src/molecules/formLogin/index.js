@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import api from '../../services/api';
 import Input from '../../atoms/input';
 import Button from '../../atoms/button';
-import { useHistory } from 'react-router-dom';
 
-import './styles.css';
+const StyledForm = styled.form`
+  width: 100%;
+  max-width: 350px;
+  & > Input + Input {
+    margin-top: 8px;
+  }
+
+  & > Input + Button{
+    margin-top: 16px;
+  }
+`;
 
 function FormLogin() {
 
@@ -41,9 +52,8 @@ function FormLogin() {
 
   };
 
-
   return (
-    <form onSubmit={handleLogin}>
+    <StyledForm onSubmit={handleLogin}>
       <Input
         required="required"
         placeholder='Email'
@@ -56,8 +66,8 @@ function FormLogin() {
         type='password'
         value={password}
         onChange={e => setPassword(e.target.value)} />
-      <Button type='submit' name='Login' style={{ marginTop: 16 }} />
-    </form>
+      <Button type='submit' name='Login' /* style={{ marginTop: 16 }} */ />
+    </StyledForm>
 
   );
 }

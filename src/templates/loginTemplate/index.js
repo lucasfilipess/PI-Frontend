@@ -1,12 +1,19 @@
 import React from 'react';
-import './styles.css';
+import styled from 'styled-components';
 import LoginCard from '../../organisms/loginCard';
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
 
 function LoginTemplate() {
   return (
-    <div className='container'>
+    <Container>
       <LoginCard />
-    </div>
+    </Container>
   );
 }
 export default LoginTemplate;

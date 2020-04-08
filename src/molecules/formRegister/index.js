@@ -1,10 +1,64 @@
 import React, { useState } from 'react';
-import Input from '../../atoms/input';
-import Button from '../../atoms/button';
-import api from '../../services/api';
-import './styles.css';
-import styles from './styles.module.css';
+import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import api from '../../services/api';
+import Button from '../../atoms/button';
+import Input from '../../atoms/input';
+import Checkbox from '@material-ui/core/Checkbox';
+import { withStyles } from '@material-ui/core/styles';
+import { green } from '@material-ui/core/colors';
+
+const GreenCheckbox = withStyles({
+  root: {
+    color: green[400],
+    '&$checked': {
+      color: green[600],
+    },
+  },
+  checked: {},
+})((props) => <Checkbox color="default" {...props} />);
+
+
+
+const StyledForm = styled.form`
+  width: 100%;
+  & > Input + Input{
+    margin-top: 8px;
+  }
+`;
+
+const Group = styled.div`
+  display: flex;
+  align-items: center;
+  & > Input {
+    margin: 8px 0;
+  }
+  &> Input + Input{
+    max-width: 80px;
+    margin-left: 8px;
+  }
+`;
+
+const CheckBoxGroup = styled.div`
+  align-items: center;
+  display: flex;
+  justify-content:space-around;
+  margin-top:8px;
+  & > div {
+    align-items: center;
+    display:flex;
+    justify-content: center;
+    max-width: 40%;
+  } 
+  & > div > p {
+    color: #333;
+    font-size: 14px;
+    font: 500 14px Roboto, sans-serif;
+
+  }
+`;
+
+
 function FormRegister() {
 
   const [name, setName] = useState('');
@@ -16,13 +70,11 @@ function FormRegister() {
   const [uf, setUf] = useState('');
   const [address, setAddress] = useState('');
   const [neighborhood, setNeighborhood] = useState('');
-  const [type, setType] = useState('null');
+  const [type, setType] = useState('');
   const [password, setPassword] = useState('');
 
+
   const history = useHistory();
-
-
-
   async function handleRegister(e) {
     e.preventDefault();
     const data = ({
@@ -52,9 +104,11 @@ function FormRegister() {
     }
   };
 
+  console.log(type);
+
 
   return (
-    <form onSubmit={handleRegister}>
+    <StyledForm onSubmit={handleRegister}>
       <Input
         required="required"
         placeholder='Nome'
@@ -90,7 +144,8 @@ function FormRegister() {
         value={cep}
         onChange={e => setCep(e.target.value)}
       />
-      <div className='group'>
+
+      <Group>
         <Input
           required="required"
           placeholder='Cidade'
@@ -105,7 +160,9 @@ function FormRegister() {
           value={uf}
           onChange={e => setUf(e.target.value)}
         />
-      </div>
+      </Group>
+
+
       <Input
         required="required"
         placeholder='Endereço'
@@ -130,33 +187,37 @@ function FormRegister() {
         onChange={e => setPassword(e.target.value)}
       />
 
-      <div className='buttons'>
-        <Button
-          required="required"
-          type='button'
-          onClick={() => setType('donor')}
-          className={type === 'donor' ? styles.active : styles.disabled}
-          name='Doar'
-        />
-        <Button
-          required="required"
-          type='button'
-          onClick={() => setType('company')}
-          className={type === 'company' ? styles.active : styles.disabled}
-          name='Receber'
-        />
-      </div>
+      <CheckBoxGroup>
+
+        <div>
+          <GreenCheckbox
+            onChange={() => setType('donor')}
+            checked={type === 'donor' ? true : false}
+            required={type === '' ? 'required' : ''}
+          />
+          <p>Quero fazer doações.</p>
+        </div>
+
+        <div>
+          <GreenCheckbox
+            onChange={() => setType('company')}
+            checked={type === 'company' ? true : false}
+            required={type === '' ? 'required' : ''}
+          />
+          <p>Quero receber doações.</p>
+        </div>
+
+      </CheckBoxGroup>
 
 
       <Button type='submit' name='Cadastrar' style={{ marginTop: 16 }} />
-    </form>
+    </StyledForm>
 
 
 
   );
 }
 export default FormRegister;
-
 
 
 

@@ -1,10 +1,15 @@
 import React from 'react';
-import './styles.css';
+import styled from 'styled-components';
 import fertilizerImg from '../../assets/fertilizer.svg';
+
+const StyledImg = styled.img`
+  height: auto;
+  width: 256px;
+`;
 
 function FertilizerImg() {
   return (
-    <img src={fertilizerImg} alt="Fertilizer Img" />
+    <StyledImg src={fertilizerImg} alt="Fertilizer Img" />
   );
 }
 export default FertilizerImg;

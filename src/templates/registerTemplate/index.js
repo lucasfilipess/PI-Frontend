@@ -1,12 +1,20 @@
 import React from 'react';
+import styled from 'styled-components';
 import RegisterCard from '../../organisms/resgisterCard';
-import './styles.css';
+
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
 
 function RegisterTemplate() {
   return (
-    <div className='container'>
+    <Container>
       <RegisterCard />
-    </div>
+    </Container>
   );
 }
 export default RegisterTemplate;

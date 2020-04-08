@@ -1,10 +1,15 @@
 import React from 'react';
-import './styles.css';
+import styled from 'styled-components';
 import logoImg from '../../assets/logo.svg';
+
+const StyledImg = styled.img`
+  height: 130px;
+  width: 130px;
+`;
 
 function Logo() {
   return (
-    <img src={logoImg} alt="Logo" />
+    <StyledImg src={logoImg} alt="Logo" />
   );
 }
 export default Logo;

@@ -3,7 +3,9 @@ import RegisterTemplate from '../../templates/registerTemplate';
 
 function Register() {
   return (
-    <RegisterTemplate />
+    <div>
+      <RegisterTemplate />
+    </div>
   );
 }
 export default Register;
