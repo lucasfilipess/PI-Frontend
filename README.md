@@ -13,7 +13,7 @@ React JS
 
 ### Pacotes:
 
-axios: https://www.npmjs.com/package/axios - react-icons: https://www.npmjs.com/package/react-icons - react-router-dom: https://www.npmjs.com/package/react-router-dom - styled-components: https://styled-components.com/docs/
+axios: https://www.npmjs.com/package/axios - react-icons: https://www.npmjs.com/package/react-icons - react-router-dom: https://www.npmjs.com/package/react-router-dom - styled-components: https://styled-components.com/docs/ - Checkbox: https://material-ui.com/pt/getting-started/installation/
 
 ### Requerimentos
 Node >= 12, npm: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
