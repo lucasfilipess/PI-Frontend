@@ -1,10 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import Dashboard from './pages/dashboard';
+import Home from './pages/home';
 import Login from './pages/login';
 import Register from './pages/register';
-import Donor from './pages/donor';
-import Company from './pages/company';
-import Home from './pages/home';
 
 function Routes() {
   return (
@@ -13,8 +12,7 @@ function Routes() {
         <Route path='/home' component={Home} />
         <Route path='/login' component={Login} />
         <Route path='/register' component={Register} />
-        <Route path='/company' component={Company} />
-        <Route path='/donor' component={Donor} />
+        <Route path='/dashboard' component={Dashboard} />
       </Switch>
     </BrowserRouter>
   );

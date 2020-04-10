@@ -1,12 +1,9 @@
 import React from 'react';
-import './styles.css';
-import Navbar from '../../organisms/navbar';
 
-function Home() {
+export default function Home() {
   return (
     <div>
-      <Navbar />
+      <h1>home</h1>
     </div>
   );
 }
-export default Home;

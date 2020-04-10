@@ -1,20 +1,32 @@
 import React from 'react';
 import styled from 'styled-components';
+import InputMask from "react-input-mask";
 
 
-const StyledInput = styled.input`
+const StyledInput = styled(InputMask)`
   border: 1px solid #dcdce6;
   border-radius: 8px;
-  color: #3333;
   font: 400 18px Roboto, sans-serif;
   height: 60px;
   padding: 0 24px;
   width: 100%;
 `;
 
-function Input({ placeholder, type, value, onChange, required }) {
+function Input({ placeholder, type, value, onChange, required, onBlur, style, maxLength, minLengt, mask, title }) {
   return (
-    <StyledInput required={required} placeholder={placeholder} type={type} value={value} onChange={onChange} />
+    <StyledInput
+      style={style}
+      onBlur={onBlur}
+      required={required}
+      placeholder={placeholder}
+      type={type}
+      value={value}
+      onChange={onChange}
+      maxLength={maxLength}
+      minLengt={minLengt}
+      mask={mask}
+      title={title}
+    />
   );
 }
 export default Input;
