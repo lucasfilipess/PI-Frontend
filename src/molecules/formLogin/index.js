@@ -15,9 +15,9 @@ const Eye = styled(FiEye)`
   background: #fff;
   color: #41414d;
   height: 30px;
-  margin-left: -45px; 
+  margin-left: 302px; 
   padding-left: 10px;
-  position:relative;
+  position:absolute;
   transition: color 0.2s;
   width: 30px;
   &:hover{

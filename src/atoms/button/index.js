@@ -15,19 +15,21 @@ const StyledButton = styled.button`
   text-decoration: none;
   transition: filter 0.2s;
   width: 100%;
-  &:hover{
+  &:hover {
     filter: brightness(90%);
-
   }
 `;
 
-
 function Button({ name, type, onClick, style, className }) {
   return (
-    <StyledButton type={type} onClick={onClick} style={style} className={className} >{name}</StyledButton>
+    <StyledButton
+      type={type}
+      onClick={onClick}
+      style={style}
+      className={className}
+    >
+      {name}
+    </StyledButton>
   );
 }
 export default Button;
-
-
-

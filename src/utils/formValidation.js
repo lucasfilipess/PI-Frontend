@@ -70,6 +70,14 @@ export const checkName = (e) => {
   }
 }
 
+export const checkTitle = (e) => {
+  if (e === '') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export const checkCity = (e) => {
   if (e.length <= 3) {
     return true;
@@ -107,6 +115,13 @@ export const checkEmail = (e) => {
 }
 
 
+export const checkDesciption = (e) => {
+  if (e.length <= 5) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 
 export const checkWhatapp = (e) => {

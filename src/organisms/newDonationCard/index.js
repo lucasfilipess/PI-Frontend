@@ -1,9 +1,10 @@
+import FormNewDonation from '../../molecules/formNewDonation';
+
 import React from 'react';
 import styled from 'styled-components';
 import Logo from '../../atoms/logo';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import FormRegister from '../../molecules/formRegister'
 
 const BackLink = styled(Link)`
   display: flex;
@@ -47,7 +48,7 @@ const LoginBtn = styled(FiArrowLeft)`
     size: 16px;
   `;
 
-const LoginContainer = styled.div`
+const DonationContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,24 +62,25 @@ const Text = styled.h1`
 
 
 
-function ResgisterCard() {
+function NewDonationCard() {
   return (
-    <LoginContainer>
+    <DonationContainer>
       <FixLogo>
         <Logo />
       </FixLogo>
-      <Text>Faça seu Cadastro</Text>
+      <Text>Cadastre sua doação</Text>
       <FormContainer>
-        <FormRegister />
-        <BackLink to='/login'>
+        <FormNewDonation />
+        <BackLink to='/dashboard'>
           <LoginBtn />
-          Já tenho cadastro
+          voltar
         </BackLink>
       </FormContainer>
-    </LoginContainer>
+    </DonationContainer>
   );
 }
-export default ResgisterCard;
+export default NewDonationCard;
+
 
 
 
