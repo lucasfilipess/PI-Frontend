@@ -1,11 +1,26 @@
-import React from 'react';
-import Logo from '../../atoms/logo';
-import Button from '../../atoms/button';
-import './styles.css';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { Navbar } from 'react-bootstrap';
+import NavButtons from '../../molecules/navButtons';
+import NavLogo from '../../molecules/navLogo';
 
-function Navbar() {
+const StyledNavbar = styled(Navbar)`
+  display: flex;
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 80px;
+  align-items: center;
+  justify-content: center;
+  background: #424242;
+  border-bottom: 2px solid #4caf50;
+`;
+
+function DashboardNavbar() {
   return (
-    <div></div>
+    <StyledNavbar fixed="top" /* expand="lg" variant="light" bg="light" */>
+      <NavLogo />
+      <NavButtons />
+    </StyledNavbar>
   );
 }
-export default Navbar;
+export default DashboardNavbar;

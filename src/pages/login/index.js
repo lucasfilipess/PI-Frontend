@@ -1,10 +1,6 @@
 import React from 'react';
-import LoginTemplate from '../../templates/loginTemplate';
+import LoginCard from '../../organisms/loginCard';
 function Login() {
-  return (
-    <div>
-      <LoginTemplate />
-    </div>
-  );
+  return <LoginCard />;
 }
 export default Login;

@@ -1,54 +1,73 @@
-
 export const searchCep = async (e) => {
-
   let cep = e.replace(/\D/g, '');
 
-  if (cep !== "") {
-
+  if (cep !== '') {
     let validacep = /^[0-9]{8}$/;
 
     if (validacep.test(cep)) {
-
-      const localization = await fetch('https://viacep.com.br/ws/' + cep + '/json')
+      const localization = await fetch(
+        'https://viacep.com.br/ws/' + cep + '/json'
+      )
         .then((response) => response.json())
-        .then(data => {
+        .then((data) => {
           return data;
         });
-
 
       if (!localization.erro) {
         const resp = {
           city: localization.localidade,
           uf: localization.uf,
           address: localization.logradouro,
-          neighborhood: localization.bairro
+          neighborhood: localization.bairro,
         };
         return resp;
       }
-    }
-    else {
+    } else {
       return false;
     }
-  }
-  else {
+  } else {
     return false;
   }
 };
 
-
-
 export const searchUf = (e) => {
   e = e.toUpperCase();
-  const states = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'];
+  const states = [
+    'AC',
+    'AL',
+    'AP',
+    'AM',
+    'BA',
+    'CE',
+    'DF',
+    'ES',
+    'GO',
+    'MA',
+    'MT',
+    'MS',
+    'MG',
+    'PA',
+    'PB',
+    'PR',
+    'PE',
+    'PI',
+    'RJ',
+    'RN',
+    'RS',
+    'RO',
+    'RR',
+    'SC',
+    'SP',
+    'SE',
+    'TO',
+  ];
 
   let verify = false;
 
   for (let i = 0; i < states.length; i++) {
-
     if (e === states[i]) {
       verify = true;
     }
-
   }
 
   if (verify) {
@@ -56,11 +75,7 @@ export const searchUf = (e) => {
   } else {
     return true;
   }
-
-}
-
-
-
+};
 
 export const checkName = (e) => {
   if (e === '') {
@@ -68,7 +83,7 @@ export const checkName = (e) => {
   } else {
     return false;
   }
-}
+};
 
 export const checkTitle = (e) => {
   if (e === '') {
@@ -76,7 +91,7 @@ export const checkTitle = (e) => {
   } else {
     return false;
   }
-}
+};
 
 export const checkCity = (e) => {
   if (e.length <= 3) {
@@ -84,7 +99,7 @@ export const checkCity = (e) => {
   } else {
     return false;
   }
-}
+};
 
 export const checkAddres = (e) => {
   if (e.length <= 3) {
@@ -92,8 +107,7 @@ export const checkAddres = (e) => {
   } else {
     return false;
   }
-}
-
+};
 
 export const checkNeighborhood = (e) => {
   if (e.length <= 3) {
@@ -101,19 +115,17 @@ export const checkNeighborhood = (e) => {
   } else {
     return false;
   }
-}
+};
 
 export const checkEmail = (e) => {
-
-  let validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+  let validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
   if (validEmail.test(e)) {
     return false;
   } else {
     return true;
   }
-}
-
+};
 
 export const checkDesciption = (e) => {
   if (e.length <= 5) {
@@ -121,23 +133,18 @@ export const checkDesciption = (e) => {
   } else {
     return false;
   }
-}
-
+};
 
 export const checkWhatapp = (e) => {
-
   if (e === '') {
     return true;
   } else {
-
     let verify = false;
 
     for (let i = 0; i < e.length; i++) {
-
       if (e[i] === '_') {
         verify = true;
       }
-
     }
 
     if (verify) {
@@ -145,13 +152,23 @@ export const checkWhatapp = (e) => {
     } else {
       return false;
     }
-
   }
-}
+};
 
+export const unformat = (e) => {
+  e = e.replace('(', '');
+  e = e.replace(')', '');
+  e = e.replace('-', '');
+  e = e.replace(' ', '');
+  e = e.replace(' ', '');
+  return e;
+};
 
-
-
-
-
-
+export const format = (e) => {
+  const ddd = e.slice(0, 2);
+  const part9 = e.slice(2, 3);
+  const part1 = e.slice(3, 7);
+  const part2 = e.slice(7, 11);
+  const formated = `(${ddd}) ${part9} ${part1}-${part2}`;
+  return formated;
+};

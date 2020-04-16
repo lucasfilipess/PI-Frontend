@@ -6,11 +6,10 @@ const StyledButton = styled.button`
   border: 0;
   border-radius: 8px;
   color: #fff;
-  /* display: inline-block; */
-  font-size: 18px;
+  font: 400 18px Roboto, sans-serif;
   font-weight: bold;
-  height: 60px;
-  line-height: 60px;
+  height: 55px;
+  line-height: 55px;
   text-align: center;
   text-decoration: none;
   transition: filter 0.2s;

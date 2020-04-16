@@ -1,11 +1,7 @@
 import React from 'react';
-import NewDonationTemplate from '../../templates/newDonationTemplate';
+import NewDonationCard from '../../organisms/newDonationCard';
 
 function NewDonation() {
-  return (
-    <div>
-      <NewDonationTemplate />
-    </div>
-  );
+  return <NewDonationCard />;
 }
 export default NewDonation;
