@@ -14,53 +14,48 @@ import Modal from '@material-ui/core/Modal';
 const Eye = styled(FiEye)`
   background: #fff;
   color: #41414d;
-  height: 30px;
-  margin-left: 302px; 
-  padding-left: 10px;
-  position:absolute;
+  height: 37px;
+  position: absolute;
+  left: 80%;
+  margin: 0 10px;
+  padding: 0 8px;
   transition: color 0.2s;
-  width: 30px;
-  &:hover{
-    color:#4caf50;
+  width: 37px;
+  &:hover {
+    color: #4caf50;
   }
 `;
 
 const Octagon = styled(FiXOctagon)`
   color: #f44336;
-  height: 60px;
+  height: 75px;
   margin-right: 20px;
-  width: 60px;
+  width: 75px;
 `;
 
-
 const PasswordGroup = styled.div`
-  align-items:center;
-  display:flex;
+  align-items: center;
+  display: flex;
   position: relative;
-  margin: 8px 0;
-  min-width:350px;
 `;
 
 const pattern = {
-  borderColor: '#dcdce6'
-}
+  borderColor: '#dcdce6',
+};
 
 const red = {
-  borderColor: '#f44336'
-}
+  borderColor: '#f44336',
+};
 
 const StyledForm = styled.form`
-  & > Input + Input {
+  & > Input + div {
     margin-top: 8px;
   }
-  
-  & > Input + Button{
+
+  & > div + Button {
     margin-top: 16px;
   }
-  max-width: 350px;
-  width: 100%;
 `;
-
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -81,9 +76,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 function FormLogin() {
-
   const classes = useStyles();
 
   const [email, setEmail] = useState('');
@@ -95,30 +88,27 @@ function FormLogin() {
   const [modalError, setModalError] = useState(false);
   const [wrongEmail, setWrongEmail] = useState(false);
 
-
   const handleCloseModalError = () => {
     setModalError(false);
   };
-
 
   const handleOpenModalError = () => {
     setModalError(true);
   };
 
-
-
   async function handleLogin(e) {
-
     e.preventDefault();
-    const data = ({
+    const data = {
       email,
-      password
-    });
+      password,
+    };
 
-    if (!wrongEmail) {
-      await api.post('login', data)
-        .then(response => {
+    if (!wrongEmail && email !== '' && password !== '') {
+      await api
+        .post('login', data)
+        .then((response) => {
           localStorage.setItem('token', response.data.token);
+          localStorage.setItem('name', response.data.name);
           history.push('dashboard');
         })
         .catch((error) => {
@@ -131,36 +121,36 @@ function FormLogin() {
     } else {
       handleOpenModalError();
     }
-  };
+  }
 
   return (
-    <StyledForm onSubmit={handleLogin}>
-      <Input
-        onBlur={e => setWrongEmail(checkEmail(e.target.value))}
-        onChange={e => setEmail(e.target.value)}
-        placeholder='Email'
-        style={wrongEmail ? red : pattern}
-        title="Sua email para login"
-        value={email}
-      />
-
-
-      <PasswordGroup>
+    <div>
+      <StyledForm onSubmit={handleLogin}>
         <Input
-          onChange={e => setPassword(e.target.value)}
-          placeholder='Senha'
-          title="Sua senha para login"
-          type={eye ? 'text' : 'password'}
-          value={password}
+          onBlur={(e) => setWrongEmail(checkEmail(e.target.value))}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          style={wrongEmail ? red : pattern}
+          title="Sua email para login"
+          value={email}
         />
-        <Eye
-          onMouseDown={e => setEye(true)}
-          onMouseUp={e => setEye(false)}
-        />
-      </PasswordGroup>
 
-      <Button type='submit' name='Login' />
+        <PasswordGroup>
+          <Input
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Senha"
+            title="Sua senha para login"
+            type={eye ? 'text' : 'password'}
+            value={password}
+          />
+          <Eye
+            onMouseDown={() => setEye(true)}
+            onMouseUp={() => setEye(false)}
+          />
+        </PasswordGroup>
 
+        <Button type="submit" name="Login" />
+      </StyledForm>
 
       <Modal
         aria-labelledby="transition-modal-title"
@@ -180,9 +170,7 @@ function FormLogin() {
           </div>
         </Fade>
       </Modal>
-
-    </StyledForm>
-
+    </div>
   );
 }
 export default FormLogin;

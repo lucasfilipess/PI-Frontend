@@ -1,11 +1,7 @@
 import React from 'react';
-import RegisterTemplate from '../../templates/registerTemplate';
+import RegisterCard from '../../organisms/resgisterCard';
 
 function Register() {
-  return (
-    <div>
-      <RegisterTemplate />
-    </div>
-  );
+  return <RegisterCard />;
 }
 export default Register;

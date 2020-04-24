@@ -8,10 +8,6 @@ const StyledImg = styled.img`
 `;
 
 function Logo() {
-  return (
-    <StyledImg src={logoImg} alt="Logo" />
-  );
+  return <StyledImg src={logoImg} alt="Logo" />;
 }
 export default Logo;
-
-

@@ -4,12 +4,10 @@ import fertilizerImg from '../../assets/fertilizer.svg';
 
 const StyledImg = styled.img`
   height: auto;
-  width: 256px;
+  width: 60px;
 `;
 
 function FertilizerImg() {
-  return (
-    <StyledImg src={fertilizerImg} alt="Fertilizer Img" />
-  );
+  return <StyledImg src={fertilizerImg} alt="Fertilizer Img" />;
 }
 export default FertilizerImg;

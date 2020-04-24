@@ -5,14 +5,30 @@ const StyledTextarea = styled.textarea`
   border: 1px solid #dcdce6;
   border-radius: 8px;
   color: 3333;
+  font: 400 18px Roboto, sans-serif;
   line-height: 24px;
   min-height: 140px;
   padding: 16px 24px;
   resize: vertical;
   width: 100%;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
-function Textarea({ placeholder, type, value, onChange, required, onBlur, style, maxLength, minLengt, title }) {
+function Textarea({
+  placeholder,
+  type,
+  value,
+  onChange,
+  required,
+  onBlur,
+  style,
+  maxLength,
+  minLengt,
+  title,
+}) {
   return (
     <StyledTextarea
       maxLength={maxLength}
