@@ -160,7 +160,7 @@ function FormDonation() {
       !wrongTitle &&
       !wrongNeighborhood &&
       !wrongUf &&
-      (title && cep && city && uf && address && neighborhood) != ''
+      (title && cep && city && uf && address && neighborhood) !== ''
     ) {
       await api
         .post('donations', data, {

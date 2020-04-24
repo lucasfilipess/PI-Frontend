@@ -28,7 +28,7 @@ function Profile() {
 
   useEffect(() => {
     api
-      .get('donations/mydonations', {
+      .get('profile/donations', {
         headers: {
           authorization: token,
         },
@@ -43,7 +43,7 @@ function Profile() {
           console.log('internal server error');
         }
       });
-  }, []);
+  }, [token]);
   return (
     <div>
       <Navbar />

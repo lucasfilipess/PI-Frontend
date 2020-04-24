@@ -18,7 +18,7 @@ const Grid = styled.div`
 function Donations() {
   const [donations, setDonations] = useState([]);
   const token = localStorage.getItem('token');
-  const msg = 'teste de msg whatsapp';
+  // const msg = 'teste de msg whatsapp';
 
   useEffect(() => {
     api

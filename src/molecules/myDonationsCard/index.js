@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const TextBox = styled.div`
@@ -103,7 +103,7 @@ const Title = styled.p`
   font-size: 20px;
   font-weight: bold;
 `;
-function DonationCard({
+function MydonationCard({
   title,
   description,
   cep,
@@ -111,8 +111,6 @@ function DonationCard({
   address,
   uf,
   neighborhood,
-  sendEmail,
-  whatsapp,
 }) {
   return (
     <Card>
@@ -142,11 +140,7 @@ function DonationCard({
           <p>{neighborhood}</p>
         </div>
       </Location>
-      <Contact>
-        <div>{whatsapp}</div>
-        <a href={sendEmail}>Email</a>
-      </Contact>
     </Card>
   );
 }
-export default DonationCard;
+export default MydonationCard;

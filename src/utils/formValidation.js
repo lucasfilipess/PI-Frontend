@@ -118,7 +118,7 @@ export const checkNeighborhood = (e) => {
 };
 
 export const checkEmail = (e) => {
-  let validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  let validEmail = /^\w+([-]?\w+)*@\w+([-]?\w+)*(\w{2,3})+$/;
 
   if (validEmail.test(e)) {
     return false;

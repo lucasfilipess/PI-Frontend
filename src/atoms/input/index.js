@@ -20,7 +20,7 @@ function Input({
   onBlur,
   style,
   maxLength,
-  minLengt,
+  minLength,
   mask,
   title,
 }) {
@@ -34,7 +34,7 @@ function Input({
       value={value}
       onChange={onChange}
       maxLength={maxLength}
-      minLengt={minLengt}
+      minLength={minLength}
       mask={mask}
       title={title}
     />
