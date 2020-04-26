@@ -2,30 +2,24 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import api from '../../services/api';
-import Backdrop from '@material-ui/core/Backdrop';
 import Button from '../../atoms/button';
 import {
-  checkTitle,
-  checkCity,
-  checkAddres,
-  checkNeighborhood,
+  checkEmail,
+  checkWhatapp,
+  isNotEmpty,
+  isNotEmpty2,
+  isNotEmpty3,
   searchUf,
   searchCep,
-  checkDesciption,
+  unformat,
 } from '../../utils/formValidation';
 import Fade from '@material-ui/core/Fade';
-import { FiXOctagon, FiCheckCircle } from 'react-icons/fi';
 import Input from '../../atoms/input';
-import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Textarea from '../../atoms/textarea';
+import { FiEye } from 'react-icons/fi';
 
-const CheckCircle = styled(FiCheckCircle)`
-  color: #4caf50;
-  height: 60px;
-  margin-right: 20px;
-  width: 60px;
-`;
+import SuccesModal, { ErrorModal } from '../modals';
 
 const Group = styled.div`
   align-items: center;
@@ -37,13 +31,6 @@ const Group = styled.div`
     margin-left: 8px;
     max-width: 80px;
   }
-`;
-
-const Octagon = styled(FiXOctagon)`
-  color: #f44336;
-  height: 75px;
-  margin-right: 20px;
-  width: 75px;
 `;
 
 const pattern = {
@@ -65,6 +52,39 @@ const StyledButton = styled(Button)`
   }
 `;
 
+const HouseComplement = styled.div`
+  align-items: center;
+  display: flex;
+  & > Input {
+    margin: 8px 0 0 0;
+    max-width: 120px;
+  }
+  & > Input + Input {
+    margin-left: 8px;
+    max-width: 100%;
+  }
+`;
+const Eye = styled(FiEye)`
+  background: #fff;
+  color: #41414d;
+  height: 37px;
+  position: absolute;
+  left: 80%;
+  margin: 0 10px;
+  padding: 0 8px;
+  transition: color 0.2s;
+  width: 37px;
+  &:hover {
+    color: #4caf50;
+  }
+`;
+const PasswordGroup = styled.div`
+  align-items: center;
+  display: flex;
+  position: relative;
+  margin: 8px 0;
+`;
+
 const StyledForm = styled.form`
   width: 100%;
   & > Input + Input {
@@ -78,89 +98,89 @@ const StyledForm = styled.form`
   }
 `;
 
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    alignItems: 'center',
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  paper: {
-    alignItems: 'center',
-    backgroundColor: '#f0f0f5',
-    borderRadius: 10,
-    boxShadow: theme.shadows[1],
-    display: 'flex',
-    height: 200,
-    justifyContent: 'center',
-    padding: theme.spacing(2, 4, 2),
-    width: 600,
-    // height: 600,
-  },
-}));
-
 function FormDonation() {
-  const classes = useStyles();
-
   const history = useHistory();
 
   const token = localStorage.getItem('token');
+  const [register, setRegister] = useState({
+    address: '',
+    cep: '',
+    checkPassword: '',
+    complement: '',
+    city: '',
+    description: '',
+    email: '',
+    number: '',
+    neighborhood: '',
+    password: '',
+    uf: '',
+    title: '',
+    whatsapp: '',
+  });
 
-  const [address, setAddress] = useState('');
-  const [cep, setCep] = useState('');
-  const [city, setCity] = useState('');
-  const [description, setDescription] = useState('');
-  const [title, setTitle] = useState('');
-  const [neighborhood, setNeighborhood] = useState('');
-  const [uf, setUf] = useState('');
-
-  const [modalCreate, setModalCreate] = useState(false);
-  const [modalError, setModalError] = useState(false);
-
-  const [wrongAddress, setWrongAddress] = useState(false);
-  const [wrongCep, setWrongCep] = useState(false);
-  const [wrongCity, setWrongCity] = useState(false);
-  const [wrongDescription, setWrongDescription] = useState(false);
-  const [wrongTitle, setWrongTitle] = useState(false);
-  const [wrongNeighborhood, setWrongNeighborhood] = useState(false);
-  const [wrongUf, setWrongUf] = useState(false);
-
-  const handleCloseModalCreate = () => {
-    setModalCreate(false);
-    history.push('/dashboard');
-  };
-
-  const handleCloseModalError = () => {
-    setModalError(false);
-  };
-
-  const handleOpenModalCreate = () => {
-    setModalCreate(true);
-  };
-
-  const handleOpenModalError = () => {
-    setModalError(true);
-  };
+  const [eye, setEye] = useState(false);
+  const [wrong, setWrong] = useState({
+    address: '',
+    cep: '',
+    checkPassword: '',
+    complement: '',
+    city: '',
+    description: '',
+    email: '',
+    number: '',
+    neighborhood: '',
+    password: '',
+    uf: '',
+    title: '',
+    whatsapp: '',
+  });
+  const [modal, setModal] = useState({
+    wrongField: false,
+    succes: false,
+    emailExists: false,
+  });
 
   async function handleRegister(e) {
     e.preventDefault();
     const data = {
-      title,
-      description,
-      cep,
-      city,
-      address,
-      neighborhood,
-      uf,
+      name: register.name,
+      email: register.email,
+      whatsapp: register.whatsapp,
+      password: register.password,
+      cep: register.cep,
+      city: register.city,
+      address: register.address,
+      neighborhood: register.neighborhood,
+      uf: register.uf,
+      number: register.number,
+      complement: register.complement,
+      title: register.title,
+      description: register.description,
     };
 
     if (
-      !wrongAddress &&
-      !wrongCep &&
-      !wrongCity &&
-      !wrongTitle &&
-      !wrongNeighborhood &&
-      !wrongUf &&
-      (title && cep && city && uf && address && neighborhood) !== ''
+      !wrong.address &&
+      !wrong.cep &&
+      !wrong.city &&
+      !wrong.description &&
+      !wrong.email &&
+      !wrong.neighborhood &&
+      !wrong.password &&
+      !wrong.uf &&
+      !wrong.whatsapp &&
+      !wrong.title &&
+      !wrong.number &&
+      (register.title &&
+        register.email &&
+        register.description &&
+        register.whatsapp &&
+        register.cep &&
+        register.city &&
+        register.uf &&
+        register.address &&
+        register.neighborhood &&
+        register.complement &&
+        register.password) !== ''
     ) {
       await api
         .post('donations', data, {
@@ -170,7 +190,7 @@ function FormDonation() {
         })
         .then((response) => {
           console.log(response.status);
-          handleOpenModalCreate();
+          // handleOpenModalCreate();
         })
         .catch((error) => {
           console.log(
@@ -180,171 +200,242 @@ function FormDonation() {
           );
         });
     } else {
-      handleOpenModalError();
+      // handleOpenModalError();
     }
   }
 
-  async function useRegisteredAddress(e) {
-    await api
-      .get('donation/address', {
-        headers: {
-          authorization: token,
-        },
-      })
-      .then((response) => {
-        const [loc] = response.data;
-        setCep(loc.cep);
-        setCity(loc.city);
-        setUf(loc.uf);
-        setAddress(loc.address);
-        setNeighborhood(loc.neighborhood);
-        setWrongAddress(false);
-        setWrongCep(false);
-        setWrongCity(false);
-        setWrongNeighborhood(false);
-        setWrongUf(false);
-      })
-      .catch((error) => console.log(error));
+  // async function useRegisteredAddress(e) {
+  //   await api
+  //     .get('donation/address', {
+  //       headers: {
+  //         authorization: token,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       const [loc] = response.data;
+  //       setCep(loc.cep);
+  //       setCity(loc.city);
+  //       setUf(loc.uf);
+  //       setAddress(loc.address);
+  //       setNeighborhood(loc.neighborhood);
+  //       setWrongAddress(false);
+  //       setWrongCep(false);
+  //       setWrongCity(false);
+  //       setWrongNeighborhood(false);
+  //       setWrongUf(false);
+  //     })
+  //     .catch((error) => console.log(error));
+  // }
+
+  function handleSearchCep(callCep) {
+    searchCep(callCep).then((response) => {
+      if (response) {
+        setWrong((e) => ({ ...e, cep: false }));
+        setWrong((e) => ({ ...e, city: false }));
+        setWrong((e) => ({ ...e, uf: false }));
+        setWrong((e) => ({ ...e, address: false }));
+        setWrong((e) => ({ ...e, neighborhood: false }));
+        setWrong((e) => ({ ...e, number: false }));
+        setWrong((e) => ({ ...e, complement: false }));
+        setRegister((e) => ({ ...e, city: response.city }));
+        setRegister((e) => ({ ...e, uf: response.uf }));
+        setRegister((e) => ({ ...e, address: response.address }));
+        setRegister((e) => ({
+          ...e,
+          neighborhood: response.neighborhood,
+        }));
+        setRegister((e) => ({ ...e, number: response.number }));
+        setRegister((e) => ({
+          ...e,
+          complement: response.complement,
+        }));
+      } else {
+        console.log('Erro');
+        setWrong({ ...wrong, cep: true });
+      }
+    });
   }
 
   return (
     <StyledForm onSubmit={handleRegister}>
       <Input
-        onBlur={(e) => setWrongTitle(checkTitle(e.target.value))}
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={(e) => setRegister({ ...register, title: e.target.value })}
         placeholder="Título"
-        style={wrongTitle ? red : pattern}
+        style={wrong.title ? red : pattern}
         title="Seu nome"
         type="text"
-        value={title}
+        value={register.title}
       />
 
       <Textarea
-        onBlur={(e) => setWrongDescription(checkDesciption(e.target.value))}
-        onChange={(e) => setDescription(e.target.value)}
-        style={wrongDescription ? red : pattern}
+        onChange={(e) =>
+          setRegister({ ...register, description: e.target.value })
+        }
+        style={wrong.description ? red : pattern}
         placeholder="Descrição"
         title="Uma descrição sobre a doação"
         type="text"
-        value={description}
+        value={register.description}
       />
 
-      <StyledButton
+      {/* <StyledButton
         onClick={useRegisteredAddress}
         name="Usar endereço cadastrado"
         type="button"
+      /> */}
+
+      <Input
+        onChange={(e) => {
+          setRegister({ ...register, email: e.target.value });
+          setWrong({ ...wrong, email: checkEmail(e.target.value) });
+        }}
+        placeholder="Email"
+        style={wrong.email ? red : pattern}
+        title="Seu email para contato e login"
+        value={register.email}
+      />
+      <Input
+        alwaysShowMask={false}
+        maskPlaceholder={null}
+        mask={'99 9 9999-9999'}
+        onChange={(e) => {
+          setRegister({ ...register, whatsapp: unformat(e.target.value) });
+          setWrong({ ...wrong, whatsapp: checkWhatapp(e.target.value) });
+        }}
+        placeholder="Whatsapp"
+        style={wrong.whatsapp ? red : pattern}
+        title="Seu contato via Whatsapp"
+        type="text"
+        value={register.whatsapp}
       />
 
       <Input
         mask="99999-999"
-        onBlur={(e) => {
-          searchCep(e.target.value).then((response) => {
-            if (response) {
-              setCity(response.city);
-              setUf(response.uf);
-              setAddress(response.address);
-              setNeighborhood(response.neighborhood);
-              setWrongCep(false);
-              setWrongAddress(false);
-              setWrongCity(false);
-              setWrongNeighborhood(false);
-              setWrongUf(false);
-            } else {
-              setWrongCep(true);
-            }
-          });
+        maskPlaceholder={null}
+        onChange={(e) => {
+          setRegister({ ...register, cep: e.target.value });
+          if (e.target.value.length === 9) {
+            handleSearchCep(e.target.value);
+          }
         }}
-        onChange={(e) => setCep(e.target.value)}
         placeholder="CEP"
-        style={wrongCep ? red : pattern}
+        style={wrong.cep ? red : pattern}
         title="Seu CEP"
         type="text"
-        value={cep}
+        value={register.cep}
       />
+
       <Group>
         <Input
-          onBlur={(e) => setWrongCity(checkCity(e.target.value))}
-          onChange={(e) => setCity(e.target.value)}
+          onChange={(e) => {
+            setRegister({ ...register, city: e.target.value });
+            setWrong({ ...wrong, city: isNotEmpty(e.target.value) });
+          }}
           placeholder="Cidade"
-          style={wrongCity ? red : pattern}
+          style={wrong.city ? red : pattern}
           title="Cidade onde reside"
           type="text"
-          value={city}
+          value={register.city}
         />
         <Input
           maxLength="2"
-          onBlur={(e) => setWrongUf(searchUf(e.target.value))}
-          onChange={(e) => setUf(e.target.value)}
+          onChange={(e) => {
+            setRegister({ ...register, uf: e.target.value });
+            setWrong({ ...wrong, uf: searchUf(e.target.value) });
+          }}
           placeholder="UF"
-          style={wrongUf ? red : pattern}
+          style={wrong.uf ? red : pattern}
           title="O estado onde reside"
           type="text"
-          value={uf}
+          value={register.uf}
         />
       </Group>
 
       <Input
-        onBlur={(e) => setWrongAddress(checkAddres(e.target.value))}
-        onChange={(e) => setAddress(e.target.value)}
+        onChange={(e) => {
+          setRegister({ ...register, address: e.target.value });
+          setWrong({ ...wrong, address: isNotEmpty(e.target.value) });
+        }}
         placeholder="Endereço"
-        style={wrongAddress ? red : pattern}
+        style={wrong.address ? red : pattern}
         title="Endereço onde reside"
         type="text"
-        value={address}
+        value={register.address}
       />
       <Input
-        onBlur={(e) => setWrongNeighborhood(checkNeighborhood(e.target.value))}
-        onChange={(e) => setNeighborhood(e.target.value)}
+        onChange={(e) => {
+          setRegister({ ...register, neighborhood: e.target.value });
+          setWrong({ ...wrong, neighborhood: isNotEmpty(e.target.value) });
+        }}
         placeholder="Bairro"
-        style={wrongNeighborhood ? red : pattern}
+        style={wrong.neighborhood ? red : pattern}
         title="Bairro onde reside"
         type="text"
-        value={neighborhood}
+        value={register.neighborhood}
+      />
+
+      <HouseComplement>
+        <Input
+          onChange={(e) => {
+            setRegister({ ...register, number: e.target.value });
+            setWrong({ ...wrong, number: isNotEmpty3(e.target.value) });
+          }}
+          placeholder="Número"
+          style={wrong.number ? red : pattern}
+          title="Número da casa ou apartamento"
+          type="number"
+          value={register.number}
+        />
+        <Input
+          onChange={(e) =>
+            setRegister({ ...register, complement: e.target.value })
+          }
+          placeholder="Complemento"
+          style={wrong.complement ? red : pattern}
+          title="Ex: Apartamento A"
+          type="text"
+          value={register.complement}
+        />
+      </HouseComplement>
+
+      <PasswordGroup>
+        <Input
+          onChange={(e) => {
+            setWrong({ ...wrong, password: false });
+            setRegister({ ...register, password: e.target.value });
+            if (e.target.value === register.checkPassword) {
+              setWrong({ ...wrong, password: false });
+            }
+          }}
+          placeholder="Senha"
+          style={wrong.password ? red : pattern}
+          title="Sua senha para login"
+          type={eye ? 'text' : 'password'}
+          value={register.password}
+        />
+        <Eye
+          onMouseDown={(e) => setEye(true)}
+          onMouseUp={(e) => setEye(false)}
+        />
+      </PasswordGroup>
+
+      <Input
+        onChange={(e) => {
+          setRegister({ ...register, checkPassword: e.target.value });
+          if (e.target.value === register.password) {
+            setWrong({ ...wrong, checkPassword: false });
+          } else {
+            setWrong({ ...wrong, checkPassword: true });
+          }
+        }}
+        placeholder="Confirmar senha"
+        style={wrong.checkPassword ? red : pattern}
+        title="Digite a mesma senha digitada acima"
+        type={eye ? 'text' : 'password'}
+        value={register.checkPassword}
       />
 
       <Button type="submit" name="Cadastrar" style={{ marginTop: 16 }} />
-
-      <Modal
-        aria-labelledby="transition-modal-title"
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-        className={classes.modal}
-        closeAfterTransition
-        onClose={handleCloseModalCreate}
-        open={modalCreate}
-      >
-        <Fade in={modalCreate}>
-          <div className={classes.paper}>
-            <CheckCircle />
-            <h2 id="transition-modal-title">
-              Cadastro de doação realizado com sucesso!
-            </h2>
-          </div>
-        </Fade>
-      </Modal>
-
-      <Modal
-        aria-labelledby="transition-modal-title"
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-        closeAfterTransition
-        className={classes.modal}
-        open={modalError}
-        onClose={handleCloseModalError}
-      >
-        <Fade in={modalError}>
-          <div className={classes.paper}>
-            <Octagon />
-            <h2 id="transition-modal-title">
-              Confira se todos os campos estão <br /> preenchidos corretamente.
-            </h2>
-          </div>
-        </Fade>
-      </Modal>
     </StyledForm>
   );
 }

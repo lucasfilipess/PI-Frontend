@@ -1,29 +1,30 @@
 export const searchCep = async (e) => {
+  // console.log('Função ->', e);
+
+  if (e === '_____-___') return 'vazio';
   let cep = e.replace(/\D/g, '');
 
-  if (cep !== '') {
-    let validacep = /^[0-9]{8}$/;
+  let validacep = /^[0-9]{8}$/;
 
-    if (validacep.test(cep)) {
-      const localization = await fetch(
-        'https://viacep.com.br/ws/' + cep + '/json'
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          return data;
-        });
+  if (validacep.test(cep)) {
+    const localization = await fetch(
+      'https://viacep.com.br/ws/' + cep + '/json'
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      });
 
-      if (!localization.erro) {
-        const resp = {
-          city: localization.localidade,
-          uf: localization.uf,
-          address: localization.logradouro,
-          neighborhood: localization.bairro,
-        };
-        return resp;
-      }
-    } else {
-      return false;
+    if (!localization.erro) {
+      const resp = {
+        city: localization.localidade,
+        uf: localization.uf,
+        address: localization.logradouro,
+        neighborhood: localization.bairro,
+        complement: localization.complemento,
+        number: localization.gia,
+      };
+      return resp;
     }
   } else {
     return false;
@@ -31,6 +32,7 @@ export const searchCep = async (e) => {
 };
 
 export const searchUf = (e) => {
+  if (e === '') return false;
   e = e.toUpperCase();
   const states = [
     'AC',
@@ -77,32 +79,23 @@ export const searchUf = (e) => {
   }
 };
 
-export const checkName = (e) => {
-  if (e === '') {
-    return true;
-  } else {
-    return false;
-  }
-};
-
-export const checkTitle = (e) => {
-  if (e === '') {
-    return true;
-  } else {
-    return false;
-  }
-};
-
-export const checkCity = (e) => {
+export const isNotEmpty = (e) => {
   if (e.length <= 3) {
     return true;
   } else {
     return false;
   }
 };
+export const isNotEmpty2 = (e) => {
+  if (e < 2) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
-export const checkAddres = (e) => {
-  if (e.length <= 3) {
+export const isNotEmpty3 = (e) => {
+  if (e === '') {
     return true;
   } else {
     return false;
@@ -118,7 +111,8 @@ export const checkNeighborhood = (e) => {
 };
 
 export const checkEmail = (e) => {
-  let validEmail = /^\w+([-]?\w+)*@\w+([-]?\w+)*(\w{2,3})+$/;
+  if (e === '') return false;
+  let validEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   if (validEmail.test(e)) {
     return false;
@@ -136,28 +130,23 @@ export const checkDesciption = (e) => {
 };
 
 export const checkWhatapp = (e) => {
-  if (e === '') {
+  if (e === '(__) _ ____-____') return false;
+  let verify = false;
+
+  for (let i = 0; i < e.length; i++) {
+    if (e[i] === '_') {
+      verify = true;
+    }
+  }
+
+  if (verify) {
     return true;
   } else {
-    let verify = false;
-
-    for (let i = 0; i < e.length; i++) {
-      if (e[i] === '_') {
-        verify = true;
-      }
-    }
-
-    if (verify) {
-      return true;
-    } else {
-      return false;
-    }
+    return false;
   }
 };
 
 export const unformat = (e) => {
-  e = e.replace('(', '');
-  e = e.replace(')', '');
   e = e.replace('-', '');
   e = e.replace(' ', '');
   e = e.replace(' ', '');
