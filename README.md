@@ -22,3 +22,5 @@ Node >= 12, npm: https://docs.npmjs.com/downloading-and-installing-node-js-and-n
 ### Design Pattern
 
 Atomic: https://github.com/danilowoz/react-atomic-design
+
+Concertar accordion donation / new -> checkbox

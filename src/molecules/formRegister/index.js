@@ -147,6 +147,7 @@ function FormRegister() {
     setWrong((e) => ({ ...e, neighborhood: isNotEmpty(data.neighborhood) }));
     setWrong((e) => ({ ...e, uf: isNotEmpty2(data.uf) }));
     setWrong((e) => ({ ...e, number: isNotEmpty3(data.number) }));
+
     if (
       !wrong.address &&
       !wrong.cep &&

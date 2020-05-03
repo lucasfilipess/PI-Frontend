@@ -18,7 +18,7 @@ function Routes() {
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/donation/new" component={NewDonation} />
         <Route path="/profile" component={Profile} />
-        <Route path="/teste" component={Example} />
+        {/* <Route path="/teste" component={Example} /> */}
       </Switch>
     </BrowserRouter>
   );
