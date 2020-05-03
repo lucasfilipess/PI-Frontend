@@ -2,30 +2,22 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import api from '../../services/api';
-import Backdrop from '@material-ui/core/Backdrop';
 import Button from '../../atoms/button';
 import {
-  checkTitle,
-  checkCity,
-  checkAddres,
-  checkNeighborhood,
+  isNotEmpty,
+  isNotEmpty2,
+  isNotEmpty3,
   searchUf,
   searchCep,
-  checkDesciption,
 } from '../../utils/formValidation';
-import Fade from '@material-ui/core/Fade';
-import { FiXOctagon, FiCheckCircle } from 'react-icons/fi';
 import Input from '../../atoms/input';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
 import Textarea from '../../atoms/textarea';
+import { FiEye } from 'react-icons/fi';
+import CheckboxInput from '../../atoms/checkbox';
 
-const CheckCircle = styled(FiCheckCircle)`
-  color: #4caf50;
-  height: 60px;
-  margin-right: 20px;
-  width: 60px;
-`;
+import Toggle from '../accordion';
+
+import SuccesModal, { ErrorModal } from '../modals';
 
 const Group = styled.div`
   align-items: center;
@@ -37,13 +29,6 @@ const Group = styled.div`
     margin-left: 8px;
     max-width: 80px;
   }
-`;
-
-const Octagon = styled(FiXOctagon)`
-  color: #f44336;
-  height: 75px;
-  margin-right: 20px;
-  width: 75px;
 `;
 
 const pattern = {
@@ -65,103 +50,151 @@ const StyledButton = styled(Button)`
   }
 `;
 
+const HouseComplement = styled.div`
+  align-items: center;
+  display: flex;
+  & > Input {
+    margin: 8px 0 0 0;
+    max-width: 120px;
+  }
+  & > Input + Input {
+    margin-left: 8px;
+    max-width: 100%;
+  }
+`;
+const Eye = styled(FiEye)`
+  background: #fff;
+  color: #41414d;
+  height: 37px;
+  position: absolute;
+  left: 80%;
+  margin: 0 10px;
+  padding: 0 8px;
+  transition: color 0.2s;
+  width: 37px;
+  &:hover {
+    color: #4caf50;
+  }
+`;
+
 const StyledForm = styled.form`
   width: 100%;
-  & > Input + Input {
-    margin-top: 8px;
-  }
-  & > Input + Textarea {
-    margin-top: 8px;
-  }
-  & > Textarea + Input {
+  & > textarea {
     margin-top: 8px;
   }
 `;
 
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    alignItems: 'center',
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  paper: {
-    alignItems: 'center',
-    backgroundColor: '#f0f0f5',
-    borderRadius: 10,
-    boxShadow: theme.shadows[1],
-    display: 'flex',
-    height: 200,
-    justifyContent: 'center',
-    padding: theme.spacing(2, 4, 2),
-    width: 600,
-    // height: 600,
-  },
-}));
+const CheckboxGroup = styled.div`
+  display: flex;
+  margin: 8px 0;
+  align-items: center;
+  & > p {
+    font: 400 16px Roboto, sans-serif;
+    margin: 0;
+  }
+`;
+
+const Endereco = styled.div`
+  & > input + input {
+    margin-top: 8px;
+  }
+`;
 
 function FormDonation() {
-  const classes = useStyles();
-
   const history = useHistory();
 
   const token = localStorage.getItem('token');
+  const [register, setRegister] = useState({
+    address: '',
+    cep: '',
+    complement: '',
+    city: '',
+    description: '',
+    number: '',
+    neighborhood: '',
+    uf: '',
+    title: '',
+  });
 
-  const [address, setAddress] = useState('');
-  const [cep, setCep] = useState('');
-  const [city, setCity] = useState('');
-  const [description, setDescription] = useState('');
-  const [title, setTitle] = useState('');
-  const [neighborhood, setNeighborhood] = useState('');
-  const [uf, setUf] = useState('');
-
-  const [modalCreate, setModalCreate] = useState(false);
-  const [modalError, setModalError] = useState(false);
-
-  const [wrongAddress, setWrongAddress] = useState(false);
-  const [wrongCep, setWrongCep] = useState(false);
-  const [wrongCity, setWrongCity] = useState(false);
-  const [wrongDescription, setWrongDescription] = useState(false);
-  const [wrongTitle, setWrongTitle] = useState(false);
-  const [wrongNeighborhood, setWrongNeighborhood] = useState(false);
-  const [wrongUf, setWrongUf] = useState(false);
-
-  const handleCloseModalCreate = () => {
-    setModalCreate(false);
-    history.push('/dashboard');
-  };
-
-  const handleCloseModalError = () => {
-    setModalError(false);
-  };
-
-  const handleOpenModalCreate = () => {
-    setModalCreate(true);
-  };
-
-  const handleOpenModalError = () => {
-    setModalError(true);
-  };
+  const [wrong, setWrong] = useState({
+    address: '',
+    cep: '',
+    complement: '',
+    city: '',
+    description: '',
+    number: '',
+    neighborhood: '',
+    uf: '',
+    title: '',
+  });
+  const [modal, setModal] = useState({
+    wrongField: false,
+    succes: false,
+  });
+  const [isChecked, setIsChecked] = useState(1);
 
   async function handleRegister(e) {
     e.preventDefault();
-    const data = {
-      title,
-      description,
-      cep,
-      city,
-      address,
-      neighborhood,
-      uf,
-    };
+    let data;
+    console.log('CHECKED ->', isChecked);
+
+    if (isChecked === 2) {
+      console.log('Entrei 2');
+      data = {
+        cep: register.cep,
+        city: register.city,
+        address: register.address,
+        neighborhood: register.neighborhood,
+        uf: register.uf,
+        number: register.number,
+        complement: register.complement,
+        title: register.title,
+        description: register.description,
+        checked: 2,
+      };
+      setWrong((e) => ({ ...e, cep: isNotEmpty(data.cep) }));
+      setWrong((e) => ({ ...e, city: isNotEmpty(data.city) }));
+      setWrong((e) => ({ ...e, address: isNotEmpty(data.address) }));
+      setWrong((e) => ({ ...e, neighborhood: isNotEmpty(data.neighborhood) }));
+      setWrong((e) => ({ ...e, uf: isNotEmpty2(data.uf) }));
+      setWrong((e) => ({ ...e, number: isNotEmpty3(data.number) }));
+      setWrong((e) => ({ ...e, title: isNotEmpty3(data.title) }));
+      setWrong((e) => ({ ...e, description: isNotEmpty3(data.description) }));
+    } else {
+      console.log('Entrei 1');
+
+      data = {
+        title: register.title,
+        description: register.description,
+        checked: 1,
+      };
+
+      console.log('WRONG TITLE ->', isNotEmpty3(data.title));
+      console.log('WRONG DESCRIPTION ->', isNotEmpty3(data.description));
+
+      setWrong((e) => ({ ...e, title: isNotEmpty3(data.title) }));
+      setWrong((e) => ({ ...e, description: isNotEmpty3(data.description) }));
+
+      setWrong((e) => ({ ...e, cep: false }));
+      setWrong((e) => ({ ...e, city: false }));
+      setWrong((e) => ({ ...e, address: false }));
+      setWrong((e) => ({ ...e, neighborhood: false }));
+      setWrong((e) => ({ ...e, uf: false }));
+      setWrong((e) => ({ ...e, number: false }));
+    }
 
     if (
-      !wrongAddress &&
-      !wrongCep &&
-      !wrongCity &&
-      !wrongTitle &&
-      !wrongNeighborhood &&
-      !wrongUf &&
-      (title && cep && city && uf && address && neighborhood) !== ''
+      !wrong.address &&
+      !wrong.cep &&
+      !wrong.city &&
+      !wrong.description &&
+      !wrong.neighborhood &&
+      !wrong.uf &&
+      !wrong.title &&
+      !wrong.number &&
+      (register.title.length && register.description.length) >= 5
     ) {
+      console.log('DATA AQUI ->', data);
       await api
         .post('donations', data, {
           headers: {
@@ -170,7 +203,7 @@ function FormDonation() {
         })
         .then((response) => {
           console.log(response.status);
-          handleOpenModalCreate();
+          setModal({ ...modal, succes: true });
         })
         .catch((error) => {
           console.log(
@@ -180,171 +213,193 @@ function FormDonation() {
           );
         });
     } else {
-      handleOpenModalError();
+      setModal({ ...modal, wrongField: true });
     }
   }
 
-  async function useRegisteredAddress(e) {
-    await api
-      .get('donation/address', {
-        headers: {
-          authorization: token,
-        },
-      })
-      .then((response) => {
-        const [loc] = response.data;
-        setCep(loc.cep);
-        setCity(loc.city);
-        setUf(loc.uf);
-        setAddress(loc.address);
-        setNeighborhood(loc.neighborhood);
-        setWrongAddress(false);
-        setWrongCep(false);
-        setWrongCity(false);
-        setWrongNeighborhood(false);
-        setWrongUf(false);
-      })
-      .catch((error) => console.log(error));
+  function handleSucces() {
+    setModal({ ...modal, succes: false });
+    history.push('/dashboard');
+  }
+
+  function handleSearchCep(callCep) {
+    searchCep(callCep).then((response) => {
+      if (response) {
+        setWrong((e) => ({ ...e, cep: false }));
+        setWrong((e) => ({ ...e, city: false }));
+        setWrong((e) => ({ ...e, uf: false }));
+        setWrong((e) => ({ ...e, address: false }));
+        setWrong((e) => ({ ...e, neighborhood: false }));
+        setWrong((e) => ({ ...e, number: false }));
+        setWrong((e) => ({ ...e, complement: false }));
+        setRegister((e) => ({ ...e, city: response.city }));
+        setRegister((e) => ({ ...e, uf: response.uf }));
+        setRegister((e) => ({ ...e, address: response.address }));
+        setRegister((e) => ({
+          ...e,
+          neighborhood: response.neighborhood,
+        }));
+        setRegister((e) => ({ ...e, number: response.number }));
+        setRegister((e) => ({
+          ...e,
+          complement: response.complement,
+        }));
+      } else {
+        console.log('Erro');
+        setWrong({ ...wrong, cep: true });
+      }
+    });
   }
 
   return (
     <StyledForm onSubmit={handleRegister}>
       <Input
-        onBlur={(e) => setWrongTitle(checkTitle(e.target.value))}
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={(e) => {
+          setRegister({ ...register, title: e.target.value });
+          setWrong({ ...wrong, title: isNotEmpty2(e.target.value) });
+        }}
         placeholder="Título"
-        style={wrongTitle ? red : pattern}
+        style={wrong.title ? red : pattern}
         title="Seu nome"
         type="text"
-        value={title}
+        value={register.title}
       />
 
       <Textarea
-        onBlur={(e) => setWrongDescription(checkDesciption(e.target.value))}
-        onChange={(e) => setDescription(e.target.value)}
-        style={wrongDescription ? red : pattern}
+        onChange={(e) => {
+          setRegister({ ...register, description: e.target.value });
+          setWrong({ ...wrong, description: isNotEmpty2(e.target.value) });
+        }}
+        style={wrong.description ? red : pattern}
         placeholder="Descrição"
         title="Uma descrição sobre a doação"
         type="text"
-        value={description}
+        value={register.description}
       />
 
-      <StyledButton
-        onClick={useRegisteredAddress}
-        name="Usar endereço cadastrado"
-        type="button"
-      />
-
-      <Input
-        mask="99999-999"
-        onBlur={(e) => {
-          searchCep(e.target.value).then((response) => {
-            if (response) {
-              setCity(response.city);
-              setUf(response.uf);
-              setAddress(response.address);
-              setNeighborhood(response.neighborhood);
-              setWrongCep(false);
-              setWrongAddress(false);
-              setWrongCity(false);
-              setWrongNeighborhood(false);
-              setWrongUf(false);
-            } else {
-              setWrongCep(true);
-            }
-          });
-        }}
-        onChange={(e) => setCep(e.target.value)}
-        placeholder="CEP"
-        style={wrongCep ? red : pattern}
-        title="Seu CEP"
-        type="text"
-        value={cep}
-      />
-      <Group>
-        <Input
-          onBlur={(e) => setWrongCity(checkCity(e.target.value))}
-          onChange={(e) => setCity(e.target.value)}
-          placeholder="Cidade"
-          style={wrongCity ? red : pattern}
-          title="Cidade onde reside"
-          type="text"
-          value={city}
+      <CheckboxGroup>
+        <CheckboxInput
+          checked={isChecked === 1}
+          onClick={() => setIsChecked(1)}
         />
-        <Input
-          maxLength="2"
-          onBlur={(e) => setWrongUf(searchUf(e.target.value))}
-          onChange={(e) => setUf(e.target.value)}
-          placeholder="UF"
-          style={wrongUf ? red : pattern}
-          title="O estado onde reside"
-          type="text"
-          value={uf}
-        />
-      </Group>
+        <p>Usar meu endereço cadastrado</p>
+      </CheckboxGroup>
+      <Toggle
+        checked={isChecked === 2}
+        onClick={() => setIsChecked(2)}
+        text="Adicionar um novo endereço"
+        content={
+          <>
+            <Input
+              mask="99999-999"
+              maskPlaceholder={null}
+              onChange={(e) => {
+                setRegister({ ...register, cep: e.target.value });
+                if (e.target.value.length === 9) {
+                  handleSearchCep(e.target.value);
+                }
+              }}
+              placeholder="CEP"
+              style={wrong.cep ? red : pattern}
+              title="Seu CEP"
+              type="text"
+              value={register.cep}
+            />
 
-      <Input
-        onBlur={(e) => setWrongAddress(checkAddres(e.target.value))}
-        onChange={(e) => setAddress(e.target.value)}
-        placeholder="Endereço"
-        style={wrongAddress ? red : pattern}
-        title="Endereço onde reside"
-        type="text"
-        value={address}
-      />
-      <Input
-        onBlur={(e) => setWrongNeighborhood(checkNeighborhood(e.target.value))}
-        onChange={(e) => setNeighborhood(e.target.value)}
-        placeholder="Bairro"
-        style={wrongNeighborhood ? red : pattern}
-        title="Bairro onde reside"
-        type="text"
-        value={neighborhood}
-      />
+            <Group>
+              <Input
+                onChange={(e) => {
+                  setRegister({ ...register, city: e.target.value });
+                  setWrong({ ...wrong, city: isNotEmpty(e.target.value) });
+                }}
+                placeholder="Cidade"
+                style={wrong.city ? red : pattern}
+                title="Cidade onde reside"
+                type="text"
+                value={register.city}
+              />
+              <Input
+                maxLength="2"
+                onChange={(e) => {
+                  setRegister({ ...register, uf: e.target.value });
+                  setWrong({ ...wrong, uf: searchUf(e.target.value) });
+                }}
+                placeholder="UF"
+                style={wrong.uf ? red : pattern}
+                title="O estado onde reside"
+                type="text"
+                value={register.uf}
+              />
+            </Group>
 
+            <Endereco>
+              <Input
+                onChange={(e) => {
+                  setRegister({ ...register, address: e.target.value });
+                  setWrong({ ...wrong, address: isNotEmpty(e.target.value) });
+                }}
+                placeholder="Endereço"
+                style={wrong.address ? red : pattern}
+                title="Endereço onde reside"
+                type="text"
+                value={register.address}
+              />
+              <Input
+                onChange={(e) => {
+                  setRegister({ ...register, neighborhood: e.target.value });
+                  setWrong({
+                    ...wrong,
+                    neighborhood: isNotEmpty(e.target.value),
+                  });
+                }}
+                placeholder="Bairro"
+                style={wrong.neighborhood ? red : pattern}
+                title="Bairro onde reside"
+                type="text"
+                value={register.neighborhood}
+              />
+            </Endereco>
+
+            <HouseComplement>
+              <Input
+                onChange={(e) => {
+                  setRegister({ ...register, number: e.target.value });
+                  setWrong({ ...wrong, number: isNotEmpty3(e.target.value) });
+                }}
+                placeholder="Número"
+                style={wrong.number ? red : pattern}
+                title="Número da casa ou apartamento"
+                type="number"
+                value={register.number}
+              />
+              <Input
+                onChange={(e) =>
+                  setRegister({ ...register, complement: e.target.value })
+                }
+                placeholder="Complemento"
+                style={wrong.complement ? red : pattern}
+                title="Ex: Apartamento A"
+                type="text"
+                value={register.complement}
+              />
+            </HouseComplement>
+          </>
+        }
+      />
       <Button type="submit" name="Cadastrar" style={{ marginTop: 16 }} />
+      <SuccesModal
+        text="Cadastro realizado com sucesso"
+        open={modal.succes}
+        close={() => handleSucces()}
+        fadein={modal.succes}
+      />
 
-      <Modal
-        aria-labelledby="transition-modal-title"
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-        className={classes.modal}
-        closeAfterTransition
-        onClose={handleCloseModalCreate}
-        open={modalCreate}
-      >
-        <Fade in={modalCreate}>
-          <div className={classes.paper}>
-            <CheckCircle />
-            <h2 id="transition-modal-title">
-              Cadastro de doação realizado com sucesso!
-            </h2>
-          </div>
-        </Fade>
-      </Modal>
-
-      <Modal
-        aria-labelledby="transition-modal-title"
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-        closeAfterTransition
-        className={classes.modal}
-        open={modalError}
-        onClose={handleCloseModalError}
-      >
-        <Fade in={modalError}>
-          <div className={classes.paper}>
-            <Octagon />
-            <h2 id="transition-modal-title">
-              Confira se todos os campos estão <br /> preenchidos corretamente.
-            </h2>
-          </div>
-        </Fade>
-      </Modal>
+      <ErrorModal
+        text="Verifique se todos os campos estão preenchidos corretamente"
+        open={modal.wrongField}
+        close={() => setModal({ ...modal, wrongField: false })}
+        fadein={modal.wrongField}
+      />
     </StyledForm>
   );
 }

@@ -20,6 +20,18 @@ body::-webkit-scrollbar {
   -ms-overflow-style: none;
 }
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
 html body a {
   text-decoration: none !important;
 }

@@ -13,7 +13,7 @@ React JS
 
 ### Pacotes:
 
-axios: https://www.npmjs.com/package/axios react-icons: https://www.npmjs.com/package/react-icons react-router-dom: https://www.npmjs.com/package/react-router-dom styled-components: https://styled-components.com/docs/ react-input-mask: https://www.npmjs.com/package/react-input-mask modal: https://material-ui.com/pt/components/modal/ styled-components-breakpoint: https://www.npmjs.com/package/styled-components-breakpoint react-bootstrap bootstrap: https://react-bootstrap.netlify.app/getting-started/introduction/
+axios: https://www.npmjs.com/package/axios react-icons: https://www.npmjs.com/package/react-icons react-router-dom: https://www.npmjs.com/package/react-router-dom styled-components: https://styled-components.com/docs/ react-input-mask: https://www.npmjs.com/package/react-input-mask modal: https://material-ui.com/pt/components/modal/ styled-components-breakpoint: https://www.npmjs.com/package/styled-components-breakpoint react-bootstrap bootstrap: https://react-bootstrap.netlify.app/getting-started/introduction/ lodash: https://lodash.com/
 
 ### Requerimentos
 
@@ -22,3 +22,5 @@ Node >= 12, npm: https://docs.npmjs.com/downloading-and-installing-node-js-and-n
 ### Design Pattern
 
 Atomic: https://github.com/danilowoz/react-atomic-design
+
+Concertar accordion donation / new -> checkbox

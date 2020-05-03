@@ -2,14 +2,11 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import api from '../../services/api';
-import Backdrop from '@material-ui/core/Backdrop';
 import Button from '../../atoms/button';
 import { checkEmail } from '../../utils/formValidation';
-import { FiEye, FiXOctagon } from 'react-icons/fi';
-import Fade from '@material-ui/core/Fade';
+import { FiEye } from 'react-icons/fi';
 import Input from '../../atoms/input';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
+import { ErrorModal } from '../modals';
 
 const Eye = styled(FiEye)`
   background: #fff;
@@ -24,13 +21,6 @@ const Eye = styled(FiEye)`
   &:hover {
     color: #4caf50;
   }
-`;
-
-const Octagon = styled(FiXOctagon)`
-  color: #f44336;
-  height: 75px;
-  margin-right: 20px;
-  width: 75px;
 `;
 
 const PasswordGroup = styled.div`
@@ -57,53 +47,29 @@ const StyledForm = styled.form`
   }
 `;
 
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    alignItems: 'center',
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  paper: {
-    alignItems: 'center',
-    backgroundColor: '#f0f0f5',
-    borderRadius: 10,
-    boxShadow: theme.shadows[1],
-    display: 'flex',
-    height: 200,
-    justifyContent: 'center',
-    padding: theme.spacing(2, 4, 2),
-    width: 500,
-  },
-}));
-
 function FormLogin() {
-  const classes = useStyles();
-
-  const [email, setEmail] = useState('');
   const [eye, setEye] = useState(false);
 
   const history = useHistory();
 
-  const [password, setPassword] = useState('');
-  const [modalError, setModalError] = useState(false);
+  const [login, setLogin] = useState({
+    email: '',
+    password: '',
+  });
+
+  const [openModal, setOpenModal] = useState(false);
+
   const [wrongEmail, setWrongEmail] = useState(false);
-
-  const handleCloseModalError = () => {
-    setModalError(false);
-  };
-
-  const handleOpenModalError = () => {
-    setModalError(true);
-  };
 
   async function handleLogin(e) {
     e.preventDefault();
     const data = {
-      email,
-      password,
+      email: login.email,
+      password: login.password,
     };
 
-    if (!wrongEmail && email !== '' && password !== '') {
+    if (!wrongEmail && login.email !== '' && login.password !== '') {
+      console.log(data);
       await api
         .post('login', data)
         .then((response) => {
@@ -113,63 +79,48 @@ function FormLogin() {
         })
         .catch((error) => {
           if (error.response.status === 404) {
-            handleOpenModalError();
+            setOpenModal(true);
           } else {
             console.log('internal server error');
           }
         });
     } else {
-      handleOpenModalError();
+      setOpenModal(true);
     }
   }
-
   return (
     <div>
       <StyledForm onSubmit={handleLogin}>
         <Input
           onBlur={(e) => setWrongEmail(checkEmail(e.target.value))}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setLogin({ ...login, email: e.target.value })}
           placeholder="Email"
           style={wrongEmail ? red : pattern}
           title="Sua email para login"
-          value={email}
+          value={login.email}
         />
 
         <PasswordGroup>
           <Input
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setLogin({ ...login, password: e.target.value })}
             placeholder="Senha"
             title="Sua senha para login"
             type={eye ? 'text' : 'password'}
-            value={password}
+            value={login.password}
           />
           <Eye
             onMouseDown={() => setEye(true)}
             onMouseUp={() => setEye(false)}
           />
         </PasswordGroup>
-
         <Button type="submit" name="Login" />
       </StyledForm>
-
-      <Modal
-        aria-labelledby="transition-modal-title"
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-        className={classes.modal}
-        closeAfterTransition
-        onClose={handleCloseModalError}
-        open={modalError}
-      >
-        <Fade in={modalError}>
-          <div className={classes.paper}>
-            <Octagon />
-            <h2 id="transition-modal-title">Senha ou email inválidos</h2>
-          </div>
-        </Fade>
-      </Modal>
+      <ErrorModal
+        text="Senha ou email inválidos"
+        open={openModal}
+        close={() => setOpenModal(false)}
+        fadein={openModal}
+      />
     </div>
   );
 }
