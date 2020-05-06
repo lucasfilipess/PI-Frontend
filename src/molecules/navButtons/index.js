@@ -56,7 +56,7 @@ function NavButtons() {
 
   function handleLogOut() {
     localStorage.clear();
-    history.push('login');
+    history.push('/');
   }
 
   return (

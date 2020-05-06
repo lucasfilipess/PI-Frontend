@@ -1,5 +1,5 @@
 import React from 'react';
-import DashboardNavbar from '../../organisms/navbar';
+import DashboardNavbar from '../../organisms/dashboardNavbar';
 import Donations from '../../organisms/donations';
 
 function Dashboard() {

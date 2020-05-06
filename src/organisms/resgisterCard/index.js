@@ -55,11 +55,12 @@ const LoginBtn = styled(FiArrowLeft)`
   size: 16px;
 `;
 
-const LoginContainer = styled.div`
+const RegisterContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: 100px 0;
 `;
 
 const Text = styled.h1`
@@ -69,8 +70,8 @@ const Text = styled.h1`
 
 function ResgisterCard() {
   return (
-    <div>
-      <LoginContainer>
+    <>
+      <RegisterContainer>
         <FixLogo>
           <Logo />
         </FixLogo>
@@ -82,8 +83,8 @@ function ResgisterCard() {
             Já tenho cadastro
           </BackLink>
         </FormContainer>
-      </LoginContainer>
-    </div>
+      </RegisterContainer>
+    </>
   );
 }
 export default ResgisterCard;
