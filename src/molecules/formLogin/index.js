@@ -38,6 +38,7 @@ const red = {
 };
 
 const StyledForm = styled.form`
+  width: 100%;
   & > Input + div {
     margin-top: 8px;
   }
@@ -89,7 +90,7 @@ function FormLogin() {
     }
   }
   return (
-    <div>
+    <>
       <StyledForm onSubmit={handleLogin}>
         <Input
           onBlur={(e) => setWrongEmail(checkEmail(e.target.value))}
@@ -121,7 +122,7 @@ function FormLogin() {
         close={() => setOpenModal(false)}
         fadein={openModal}
       />
-    </div>
+    </>
   );
 }
 export default FormLogin;

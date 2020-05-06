@@ -6,7 +6,7 @@ import Login from './pages/login';
 import Register from './pages/register';
 import NewDonation from './pages/newDonation';
 import Profile from './pages/profile';
-import Example from './teste';
+// import Example from './teste';
 
 function Routes() {
   return (

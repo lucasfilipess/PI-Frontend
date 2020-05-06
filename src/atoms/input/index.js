@@ -11,15 +11,6 @@ const StyledInput = styled(InputMask)`
   width: 100%;
 `;
 
-// const StyledInput = styled.input`
-//   border: 1px solid #dcdce6;
-//   border-radius: 8px;
-//   font: 400 18px Roboto, sans-serif;
-//   height: 55px;
-//   padding: 0 24px;
-//   width: 100%;
-// `;
-
 function Input({
   placeholder,
   type,

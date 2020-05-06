@@ -12,7 +12,6 @@ import {
 } from '../../utils/formValidation';
 import Input from '../../atoms/input';
 import Textarea from '../../atoms/textarea';
-import { FiEye } from 'react-icons/fi';
 import CheckboxInput from '../../atoms/checkbox';
 
 import Toggle from '../accordion';
@@ -39,17 +38,6 @@ const red = {
   borderColor: '#f44336',
 };
 
-const StyledButton = styled(Button)`
-  background: transparent;
-  color: #41414d;
-  font: 400 18px Roboto, sans-serif;
-  transition: color 0.2s;
-  &:hover {
-    color: #4caf50;
-    filter: brightness(100%);
-  }
-`;
-
 const HouseComplement = styled.div`
   align-items: center;
   display: flex;
@@ -60,20 +48,6 @@ const HouseComplement = styled.div`
   & > Input + Input {
     margin-left: 8px;
     max-width: 100%;
-  }
-`;
-const Eye = styled(FiEye)`
-  background: #fff;
-  color: #41414d;
-  height: 37px;
-  position: absolute;
-  left: 80%;
-  margin: 0 10px;
-  padding: 0 8px;
-  transition: color 0.2s;
-  width: 37px;
-  &:hover {
-    color: #4caf50;
   }
 `;
 

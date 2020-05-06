@@ -8,9 +8,6 @@ const Header = styled(Card.Header)`
   border: 0;
   display: flex;
   background: #f0f0f5;
-  /* margin-bottom: 80px; */
-
-  /* justify-content: center; */
   align-items: center;
   & > p {
     font: 400 16px Roboto, sans-serif;
@@ -19,7 +16,6 @@ const Header = styled(Card.Header)`
 `;
 const StyledCard = styled(Card)`
   border: 0;
-  /* background: #f0f0f5 !important; */
   box-shadow: 0;
   margin: 8px 0;
 `;

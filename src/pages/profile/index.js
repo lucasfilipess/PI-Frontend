@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../../organisms/navbar';
+import Navbar from '../../organisms/dashboardNavbar';
 import styled from 'styled-components';
 import DonationCard from '../../molecules/donationCard';
 import api from '../../services/api';
