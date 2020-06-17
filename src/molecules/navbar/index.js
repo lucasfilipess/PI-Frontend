@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Navbar } from 'react-bootstrap';
-import farmer from '../../assets/farmer.svg';
+import fertilizerLogo from '../../assets/fertilizerLogo.svg';
 
 const StyledNavbar = styled(Navbar)`
   &&& {
@@ -60,11 +60,27 @@ const Btns = styled.div`
 `;
 
 const Logo = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   & > img {
     margin-left: 30px;
     max-height: auto;
     max-width: 60px;
   }
+  &:hover {
+    & > p {
+      color: #f5f5f6;
+      transition: color 0.2s;
+    }
+  }
+`;
+const LogoName = styled.p`
+  color: #4caf50;
+  font-size: 24px;
+  font-family: 'Roboto Slab', serif;
+  font-weight: 500;
+  margin: 0;
 `;
 
 function NavbarDefault() {
@@ -72,7 +88,8 @@ function NavbarDefault() {
     <>
       <StyledNavbar fixed="top">
         <Logo to="/">
-          <img src={farmer} alt="Fazendeiro Logo" />
+          <img src={fertilizerLogo} alt="Logo" />
+          <LogoName>RE ALIMENTE</LogoName>
         </Logo>
         <Btns>
           <Login to="/login">Login</Login>

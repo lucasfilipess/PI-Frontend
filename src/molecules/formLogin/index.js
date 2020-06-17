@@ -70,7 +70,6 @@ function FormLogin() {
     };
 
     if (!wrongEmail && login.email !== '' && login.password !== '') {
-      console.log(data);
       await api
         .post('login', data)
         .then((response) => {

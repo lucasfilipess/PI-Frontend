@@ -1,6 +1,4 @@
 export const searchCep = async (e) => {
-  // console.log('Função ->', e);
-
   if (e === '_____-___') return 'vazio';
   let cep = e.replace(/\D/g, '');
 

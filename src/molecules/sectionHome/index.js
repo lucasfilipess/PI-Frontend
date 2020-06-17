@@ -305,9 +305,9 @@ function SectionHome() {
             de alimentos em restaurantes, bares, Fast-Foods e até mesmo nas
             residências, gera um grande impacto ambiental, hoje existem diversas
             empresas que utilizam desse alimento descartado para transforma-lo
-            em adubo. Com o objetivo de reduzir esse impacto a "NomeDoSistema"
-            visa unir empresas que necessitem descartar alimentos até as
-            empresas que utilizam do mesmo para ser transformado em adubo.
+            em adubo. Com o objetivo de reduzir esse impacto a RE ALIMENTE visa
+            unir empresas que necessitem descartar alimentos até as empresas que
+            utilizam do mesmo para ser transformado em adubo.
             <strong> /&#62;</strong>
           </p>
         </Description>
@@ -356,7 +356,7 @@ function SectionHome() {
               <img src={foodDonation} alt="Imagem de doação de alimento" />
               <p>
                 Empresas que utilizam os alimentos entram em contato com os
-                doadores por meio do "NomeDaEmpresa" com os dados sedidos pelo
+                doadores por meio da RE ALIMENTE com os dados sedidos pelo
                 doador. Assim elas fazem a coleta do alimento.
               </p>
             </div>
@@ -383,7 +383,7 @@ function SectionHome() {
         <RegisterText>
           <p>
             <strong> &#60;</strong>
-            Se goustou da nossa ideia e quer ajudar a tornar o mundo um lugar
+            Se gostou da nossa ideia e quer ajudar a tornar o mundo um lugar
             mais verde, você pode se cadastrar preenchendo od dados ao lado.
             Todos os dados são necessários para que as doaçoes ocorram da melhor
             forma possível.

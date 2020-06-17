@@ -44,10 +44,10 @@ const Social = styled.div`
   }
 `;
 
-function Footer() {
+function Footer({ style }) {
   return (
     <>
-      <Container>
+      <Container style={style}>
         <CopyRight>
           Sistema em desenvolvimento. Software pensado na tentativa de sanar os
           impactos do 12° problema dos Objetivos de desenvolvimento sustentável

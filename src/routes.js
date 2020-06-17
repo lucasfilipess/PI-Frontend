@@ -6,6 +6,9 @@ import Login from './pages/login';
 import Register from './pages/register';
 import NewDonation from './pages/newDonation';
 import Profile from './pages/profile';
+import EditProfile from './pages/editProfile';
+import EditDonation from './pages/editDonation';
+
 // import Example from './teste';
 
 function Routes() {
@@ -18,6 +21,8 @@ function Routes() {
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/donation/new" component={NewDonation} />
         <Route path="/profile" component={Profile} />
+        <Route path="/edit-profile" component={EditProfile} />
+        <Route path="/edit-donation/:id" component={EditDonation} />
         {/* <Route path="/teste" component={Example} /> */}
       </Switch>
     </BrowserRouter>

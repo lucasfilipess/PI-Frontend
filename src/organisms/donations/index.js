@@ -38,11 +38,13 @@ function Donations() {
         }
       });
   }, [token]);
+
   return (
     <Grid>
       {donations.map((donation) => (
         <DonationCard
           key={donation.id}
+          name={donation.name}
           title={donation.title}
           description={donation.description}
           cep={donation.cep}

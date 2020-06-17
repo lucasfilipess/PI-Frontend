@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Navbar } from 'react-bootstrap';
-import farmer from '../../assets/farmer.svg';
+import fertilizerLogo from '../../assets/fertilizerLogo.svg';
 import SectionHome from '../../molecules/sectionHome';
 import Footer from '../../molecules/footer';
 
@@ -62,10 +62,30 @@ const Btns = styled.div`
 `;
 
 const Logo = styled.img`
-  display: ${(props) => (props.active ? 'block' : 'none')};
   margin-left: 30px;
   max-height: auto;
   max-width: 60px;
+`;
+const LogoName = styled.p`
+  color: #4caf50;
+  font-size: 24px;
+  font-family: 'Roboto Slab', serif;
+  font-weight: 500;
+  margin: 0;
+`;
+const ContainerLogo = styled.button`
+  display: flex;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  align-items: center;
+  display: ${(props) => (props.active ? 'flex' : 'none')};
+  &:hover {
+    & > p {
+      color: #f5f5f6;
+      transition: color 0.2s;
+    }
+  }
 `;
 
 function Home() {
@@ -86,12 +106,10 @@ function Home() {
   return (
     <>
       <StyledNavbar fixed="top" active={active}>
-        <Logo
-          src={farmer}
-          alt="Fazendeiro Logo"
-          active={active}
-          onClick={scrollTop}
-        />
+        <ContainerLogo active={active} onClick={scrollTop}>
+          <Logo src={fertilizerLogo} alt="Logo" />
+          <LogoName>RE ALIMENTE</LogoName>
+        </ContainerLogo>
         <Btns>
           <Login to="/login" active={active}>
             Login

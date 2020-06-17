@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Button from '../../atoms/button';
 import styled from 'styled-components';
 
 const TextBox = styled.div`
@@ -50,7 +51,7 @@ const Location = styled.div`
   }
 `;
 
-const Contact = styled.div`
+const Options = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -67,34 +68,13 @@ const Contact = styled.div`
       filter: brightness(100%);
     }
   }
-  & > div {
-    width: 180px;
-    height: 55px;
-    line-height: 55px;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 18px;
-    text-align: center;
-    color: #4caf50;
-    border: 1px solid #4caf50;
-    background: transparent;
-    transition: color 0.2s, background 0.2s;
-  }
-  & > div + a {
-    width: 180px;
-    height: 55px;
-    line-height: 55px;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 18px;
-    text-align: center;
-    color: #757575;
-    border: 1px solid #757575;
-    background: transparent;
-    transition: color 0.2s, background 0.2s;
+  & > Button + Button {
+    color: #d32f2f;
+    border: 1px solid #d32f2f;
     &:hover {
-      background: #757575;
+      background: #d32f2f;
       color: #fff;
+      filter: brightness(100%);
     }
   }
 `;
@@ -111,6 +91,10 @@ function MydonationCard({
   address,
   uf,
   neighborhood,
+  handleDelete,
+  handleUpdate,
+  btn1,
+  btn2,
 }) {
   return (
     <Card>
@@ -140,6 +124,10 @@ function MydonationCard({
           <p>{neighborhood}</p>
         </div>
       </Location>
+      <Options>
+        <Button onClick={handleUpdate} name={btn2} />
+        <Button onClick={handleDelete} name={btn1} />
+      </Options>
     </Card>
   );
 }

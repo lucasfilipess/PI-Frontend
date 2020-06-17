@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import api from '../../services/api';
@@ -80,8 +80,35 @@ const HouseComplement = styled.div`
   }
 `;
 
-function FormRegister() {
+function EditRegister() {
+  const token = localStorage.getItem('token');
+  useEffect(() => {
+    async function getUser() {
+      await api
+        .get('user', {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => setData(response.data));
+    }
+    getUser();
+  }, [token]);
   const history = useHistory();
+
+  function setData(data) {
+    setRegister((e) => ({ ...e, name: data.name }));
+    setRegister((e) => ({ ...e, email: data.email }));
+    setRegister((e) => ({ ...e, whatsapp: data.whatsapp }));
+    setRegister((e) => ({ ...e, password: data.password }));
+    setRegister((e) => ({ ...e, cep: data.cep }));
+    setRegister((e) => ({ ...e, city: data.city }));
+    setRegister((e) => ({ ...e, address: data.address }));
+    setRegister((e) => ({ ...e, neighborhood: data.neighborhood }));
+    setRegister((e) => ({ ...e, uf: data.uf }));
+    setRegister((e) => ({ ...e, number: data.number }));
+    setRegister((e) => ({ ...e, complement: data.complement }));
+  }
 
   const [register, setRegister] = useState({
     address: '',
@@ -120,7 +147,7 @@ function FormRegister() {
     emailExists: false,
   });
 
-  async function handleRegister(e) {
+  async function handleEdit(e) {
     e.preventDefault();
 
     const data = {
@@ -170,14 +197,18 @@ function FormRegister() {
         register.password) !== ''
     ) {
       await api
-        .post('register', data)
-        .then((response) => {
+        .put('register', data, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then(() => {
+          localStorage.setItem('name', data.name);
           setModal({ ...modal, succes: true });
         })
         .catch((error) => {
           if (error.response.status === 422) {
             setWrong({ ...wrong, email: true });
-            setModal({ ...modal, emailExists: true });
           } else {
             console.log('internal server error: ', error.response.status);
           }
@@ -217,12 +248,12 @@ function FormRegister() {
 
   function handleSucces() {
     setModal({ ...modal, succes: false });
-    history.push('/login');
+    history.push('/profile');
   }
 
   return (
     <div>
-      <StyledForm onSubmit={handleRegister}>
+      <StyledForm onSubmit={handleEdit}>
         <Input
           onChange={(e) => {
             setRegister({ ...register, name: e.target.value });
@@ -384,10 +415,10 @@ function FormRegister() {
           type={eye ? 'text' : 'password'}
           value={register.checkPassword}
         />
-        <Button type="submit" name="Cadastrar" style={{ marginTop: 16 }} />
+        <Button type="submit" name="Salvar" style={{ marginTop: 16 }} />
       </StyledForm>
       <SuccesModal
-        text="Cadastro realizado com sucesso"
+        text="Cadastro atualizado com sucesso"
         open={modal.succes}
         close={() => handleSucces()}
         fadein={modal.succes}
@@ -398,13 +429,7 @@ function FormRegister() {
         close={() => setModal({ ...modal, wrongField: false })}
         fadein={modal.wrongField}
       />
-      <ErrorModal
-        text="Email já cadastrado"
-        open={modal.emailExists}
-        close={() => setModal({ ...modal, emailExists: false })}
-        fadein={modal.emailExists}
-      />
     </div>
   );
 }
-export default FormRegister;
+export default EditRegister;

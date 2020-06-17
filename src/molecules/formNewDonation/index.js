@@ -110,10 +110,7 @@ function FormDonation() {
   async function handleRegister(e) {
     e.preventDefault();
     let data;
-    console.log('CHECKED ->', isChecked);
-
     if (isChecked === 2) {
-      console.log('Entrei 2');
       data = {
         cep: register.cep,
         city: register.city,
@@ -135,16 +132,11 @@ function FormDonation() {
       setWrong((e) => ({ ...e, title: isNotEmpty3(data.title) }));
       setWrong((e) => ({ ...e, description: isNotEmpty3(data.description) }));
     } else {
-      console.log('Entrei 1');
-
       data = {
         title: register.title,
         description: register.description,
         checked: 1,
       };
-
-      console.log('WRONG TITLE ->', isNotEmpty3(data.title));
-      console.log('WRONG DESCRIPTION ->', isNotEmpty3(data.description));
 
       setWrong((e) => ({ ...e, title: isNotEmpty3(data.title) }));
       setWrong((e) => ({ ...e, description: isNotEmpty3(data.description) }));
@@ -168,7 +160,6 @@ function FormDonation() {
       !wrong.number &&
       (register.title.length && register.description.length) >= 5
     ) {
-      console.log('DATA AQUI ->', data);
       await api
         .post('donations', data, {
           headers: {
@@ -176,15 +167,10 @@ function FormDonation() {
           },
         })
         .then((response) => {
-          console.log(response.status);
           setModal({ ...modal, succes: true });
         })
         .catch((error) => {
-          console.log(
-            'Server error: ',
-            error.response.status,
-            error.response.data.error
-          );
+          console.log(error);
         });
     } else {
       setModal({ ...modal, wrongField: true });
@@ -219,7 +205,6 @@ function FormDonation() {
           complement: response.complement,
         }));
       } else {
-        console.log('Erro');
         setWrong({ ...wrong, cep: true });
       }
     });

@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import profile from '../../assets/profileCard.svg';
 
 const TextBox = styled.div`
   overflow: scroll;
   word-wrap: break-word;
   height: 150px;
-  margin: 20px 0;
+  margin: 20px 30px;
   -ms-overflow-style: none;
+  font-size: 16px;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -15,11 +17,12 @@ const TextBox = styled.div`
 const Card = styled.div`
   width: 100%;
   width: 520px;
-  padding: 0 30px;
   background: #fff;
-  padding: 24px;
   border-radius: 8px;
   position: relative;
+  padding-bottom: 30px;
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
+  border: 2px solid #4caf50;
   & > strong {
     display: block;
     margin-bottom: 16px;
@@ -38,14 +41,17 @@ const Card = styled.div`
 `;
 
 const Location = styled.div`
+  margin: 0 30px;
   & > div {
     display: flex;
     margin: 10px 0;
     & > strong {
       margin-right: 6px;
+      font-size: 17px;
     }
     & > strong + p {
       margin: 0 30px 0 0;
+      font-size: 17px;
     }
   }
 `;
@@ -98,12 +104,34 @@ const Contact = styled.div`
     }
   }
 `;
+const HeaderName = styled.div`
+  background: #4caf50;
+  /* border-top-left-radius: 8px; */
+  /* border-top-right-radius: 8px; */
+  height: 50px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  margin-bottom: 20px;
+  img {
+    height: 40px;
+    width: 40px;
+    margin: 0 10px 0 30px;
+    border-radius: 100%;
+  }
+  p {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0;
+  }
+`;
 
 const Title = styled.p`
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
 `;
 function DonationCard({
+  name,
   title,
   description,
   cep,
@@ -116,12 +144,26 @@ function DonationCard({
 }) {
   return (
     <Card>
-      <div>
+      <HeaderName>
+        <img src={profile} alt="profile photo" />
+        <p>{name}</p>
+      </HeaderName>
+      <div style={{ marginLeft: '30px' }}>
         <Title>{title}</Title>
       </div>
       <TextBox>
         <p>{description}</p>
       </TextBox>
+      <Title
+        style={{
+          fontSize: '20px',
+          color: '#000',
+          marginLeft: '30px',
+          marginBottom: '20px',
+        }}
+      >
+        Endereço de Coleta:
+      </Title>
       <Location>
         <div>
           <strong>CEP:</strong>
