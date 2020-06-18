@@ -15,7 +15,6 @@ const TextBox = styled.div`
 `;
 
 const Card = styled.div`
-  width: 100%;
   width: 520px;
   background: #fff;
   border-radius: 8px;

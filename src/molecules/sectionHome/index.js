@@ -384,7 +384,7 @@ function SectionHome() {
           <p>
             <strong> &#60;</strong>
             Se gostou da nossa ideia e quer ajudar a tornar o mundo um lugar
-            mais verde, você pode se cadastrar preenchendo od dados ao lado.
+            mais verde, você pode se cadastrar preenchendo os dados ao lado.
             Todos os dados são necessários para que as doaçoes ocorram da melhor
             forma possível.
             <strong> /&#62;</strong>
